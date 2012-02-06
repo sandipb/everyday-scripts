@@ -1,0 +1,2 @@
+These generally lie in /etc/defaults in a Debian or Ubuntu sytem. For Redhat/Fedora,
+these might need to be in /etc/sysconfig.

@@ -1,0 +1,44 @@
+#!/bin/bash
+# Wrapper script
+
+# Wireless interface on which you accept connections
+INTERFACE="wlan1"
+
+# IP of the interface above
+INTERFACE_IP="192.168.200.1"
+
+# If you want to run this script using normal
+# user privilege, you would like to use sudo
+# If you want to run the script as root,
+# set this to 0
+USE_SUDO="1"
+
+########## END OF CONFIGURATION ##########
+
+SUDO="sudo"
+[[ $USE_SUDO != "1" ]] && SUDO=""
+
+if [[ $1 = "start" ]];then
+    $SUDO ifconfig $INTERFACE $INTERFACE_IP
+    [[ $? == 0 ]] && $SUDO service isc-dhcp-server start
+    [[ $? == 0 ]] && $SUDO service hostapd start
+elif [[ $1 = "stop" ]];then
+    $SUDO service hostapd stop
+    $SUDO service isc-dhcp-server stop
+    $SUDO ifconfig $INTERFACE down
+elif [[ $1 = "status" ]];then
+    echo -n "$INTERFACE: "
+    $SUDO ifconfig $INTERFACE | grep MTU | grep UP >/dev/null
+    if [[ $? == 0 ]];then
+        echo "Up"
+    else
+        echo "Down"
+    fi
+    $SUDO service hostapd status| sed 's/.*hostapd/hostapd/'
+    $SUDO service isc-dhcp-server status | sed 's/.*dhcpd/dhcpd/'
+else
+    echo "Usage: $0 <start|stop|status>"
+fi
+
+
+
