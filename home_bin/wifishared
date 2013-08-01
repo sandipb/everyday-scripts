@@ -1,0 +1,21 @@
+#!/bin/bash
+
+WIFI_DEV="wlan1"
+
+if [[ $1 = "start" ]];then
+    sudo ifconfig $WIFI_DEV 192.168.200.1
+    sudo service isc-dhcp-server restart
+    sudo service hostapd start
+elif [[ $1 = "stop" ]];then
+    sudo service hostapd stop
+    sudo service isc-dhcp-server stop
+elif [[ $1 = "status" ]];then
+    sudo ifconfig $WIFI_DEV
+    sudo service hostapd status
+    sudo service isc-dhcp-server status
+else
+    echo "Usage: $0 <start|stop|status>"
+fi
+
+
+
