@@ -1,0 +1,6 @@
+SUBSYSTEM!="usb_device", ACTION!="add", GOTO="canon_rules_end"
+
+# Canon CanoScan 9000F Mark II
+ATTR{idVendor}=="04a9", ATTR{idProduct}=="190d", SYMLINK+="scan-canon", MODE="0666", OWNER="sandipb", GROUP="scanner"
+#
+LABEL="canon_rules_end"
