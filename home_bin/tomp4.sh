@@ -11,7 +11,6 @@ $FFMPEG -ss 0 -i "$SRC" $* -c:v libx264 -c:a aac \
                  -pix_fmt yuv420p \
                  -crf 18 \
                  -preset slow \
-                 -s:v hd720 \
                  -bufsize 1835k \
                  -b:a 192k -ar 44100 \
                  -movflags faststart \
