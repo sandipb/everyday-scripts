@@ -45,20 +45,21 @@ def image_width(path):
         raise
 
 
-def label_jpeg(input, output, label, width):
+def label_jpeg(input, output, label, width, height):
     try:
         subprocess.check_call(["convert -background '#0008' -fill white -gravity center "
                                "-size {width}x80 caption:'{label}' '{input}' +swap -gravity South "
                                "-geometry +0-3 -composite '{output}'".format(label=label,
                                                                              input=input,
                                                                              output=output,
-                                                                             width=width)], shell=True)
+                                                                             width=width,
+                                                                             height=height)], shell=True)
     except:
         logging.exception("Could not label image using ImageMagick")
         raise
 
 
-def process_image(name, input_dir, output_dir):
+def process_image(name, input_dir, output_dir, label_size):
     logging.info("Processing %s", name)
     full_input_name = os.path.join(input_dir, name)
     full_output_name = os.path.join(output_dir, name)
@@ -70,7 +71,7 @@ def process_image(name, input_dir, output_dir):
     logging.info("%s: Label will be '%s' ", name, label)
     width = image_width(full_input_name)
     logging.info("%s: Found image width to be %d", name, width)
-    label_jpeg(full_input_name, full_output_name, label, width)
+    label_jpeg(full_input_name, full_output_name, label, width, label_size)
     logging.info("%s: Added label to image", name)
 
 
@@ -80,7 +81,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert a folder of images to labeled images")
     parser.add_argument("-i", "--input-dir", required=True, help="Directory of jpegs to convert")
     parser.add_argument("-o", "--output-dir", required=True, help="Directory where labeled images will be put")
-    parser.add_argument("-s", "--size", default=80, help="Height of the labels (default: %(default)s)")
+    parser.add_argument("-s", "--size", type=int, default=80, help="Height of the labels (default: %(default)s)")
 
     args = parser.parse_args()
     input_dir, output_dir = os.path.abspath(args.input_dir), os.path.abspath(args.output_dir)
@@ -99,7 +100,7 @@ if __name__ == "__main__":
     pool = Pool(processes=MAX_PARALLEL)
     # inputs = [(f, input_dir, output_dir) for f in file_list]
     # logging.info("Found %d inputs: %s", len(inputs), inputs)
-    pool.map(partial(process_image, input_dir=input_dir, output_dir=output_dir), file_list)
+    pool.map(partial(process_image, input_dir=input_dir, output_dir=output_dir, label_size=args.size), file_list)
     pool.close()
     pool.join()
     end = datetime.now()
