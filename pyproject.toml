@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "everyday-scripts"
-version = "0.0.3"
+version = "0.0.4"
 description = "Sandip's everyday personal scripts"
 authors = ["Sandip Bhattacharya <sandipb@showmethesource.org>"]
 license = "Apache-2.0"

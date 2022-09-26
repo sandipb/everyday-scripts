@@ -121,7 +121,7 @@ async def move_a_file(src: str, dst: str, args: argparse.Namespace):
 async def move_files(src: str, dest_map: Dict[str, str], args: argparse.Namespace):
     gen = find_files(src, dest_map)
     while True:
-        chunk = list(islice(gen, PARALLELISM))
+        chunk = list(islice(gen, args.parallel))
         if not chunk:
             return
         async with trio.open_nursery() as nursery:
@@ -207,6 +207,7 @@ def main():
     parser.add_argument("--mt-download", "-m", action="store_true", help="Download mime types reference")
     parser.add_argument("--dry-run", "-n", action="store_true", help="Dry run")
     parser.add_argument("--copy", "-c", action="store_true", help="Copy, don't move")
+    parser.add_argument("--parallel", "-P", type=int, default=PARALLELISM, help="Number of parallel operations (default: %(default)d)")
     parser.add_argument("src", metavar="SOURCE_DIR", help="Source directory")
     parser.add_argument("dst", metavar="DST_PATTERN", nargs="+", help="Destination patterns in TYPE:DIRECTORY format")
     args = parser.parse_args()
