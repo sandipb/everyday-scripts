@@ -4,12 +4,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "everyday-scripts"
-version = "0.1.0"
+version = "0.0.1"
 description = "Sandip's everyday personal scripts"
 authors = ["Sandip Bhattacharya <sandipb@showmethesource.org>"]
 license = "Apache-2.0"
 readme = "README.md"
-packages = [{include = "home_bin", from="./src"}]
+include = ["CHANGELOG.md"]
 classifiers = [
     'Development Status :: 3 - Alpha',
     'License :: OSI Approved :: Apache Software License',
@@ -31,4 +31,4 @@ pytest = "^7.1.3"
 mypy = "^0.971"
 
 [tool.poetry.scripts]
-split_manifest = 'home_bin.split_manifest:main'
+split_manifest = 'split_manifest:main'
