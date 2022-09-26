@@ -2,30 +2,41 @@
 
 import signal
 import sys
-import subprocess
-import shlex
+
+# import subprocess
+# import shlex
 import logging
-import json
-import requests
+
+# import json
+# import requests
 import urllib3
 
 from colorama import Fore, Style, init
 
 __all__ = [
-    "colorama_init", "msg_info", "msg_error", "ask", 
-    "sig_quit_clean", "logging_init",  "chunks",
+    "colorama_init",
+    "msg_info",
+    "msg_error",
+    "ask",
+    "sig_quit_clean",
+    "logging_init",
+    "chunks",
 ]
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 def colorama_init():
     init(autoreset=True)
+
 
 def msg_info(msg):
     print(Fore.BLUE + "*** " + msg)
 
+
 def msg_error(msg):
     print(Fore.RED + "!!! " + msg)
+
 
 def ask(msg: str) -> str:
     while True:
@@ -36,19 +47,24 @@ def ask(msg: str) -> str:
         msg_error("Invalid input")
     return choice
 
+
 def sig_quit_clean():
     def quit(sig, frame):
         print()
         logging.info("Interrupted. Exiting.")
         sys.exit(1)
+
     signal.signal(signal.SIGINT, quit)
 
-def logging_init(verbose:bool = False):
-    log_level = logging.DEBUG if verbose else logging.INFO
+
+def logging_init(verbose: bool = False, log_level: int = None):
+    if log_level is None:
+        log_level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(level=log_level, format="[%(levelname)s] %(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     handler = logging.StreamHandler(sys.stderr)
     handler.setFormatter(CustomFormatter())
     logging.getLogger().handlers = [handler]
+
 
 # https://stackoverflow.com/a/56944256
 class CustomFormatter(logging.Formatter):
@@ -77,13 +93,15 @@ class CustomFormatter(logging.Formatter):
 
 def chunks(ar, l):
     """Chop up list ar into lists of at max length l
-    
+
     >>> list(map(lambda x: list(x), chunks(range(10), 3)))
     [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
     """
     for idx in range(0, len(ar), l):
-        yield ar[idx:idx+l]
+        yield ar[idx : idx + l]
+
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

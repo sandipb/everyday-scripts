@@ -6,6 +6,7 @@ import argparse
 import logging
 import yaml
 
+
 def split_manifest(fs, dir, clean_dir):
     "Read an input stream fs and output split yamls to dir"
     if clean_dir:
@@ -16,10 +17,10 @@ def split_manifest(fs, dir, clean_dir):
             logging.info("Deleted %s", path)
     for doc in yaml.safe_load_all(fs):
         if doc:
-            if doc.get('kind'):
+            if doc.get("kind"):
                 try:
-                    kind = doc['kind']
-                    name = doc['metadata']['name']
+                    kind = doc["kind"]
+                    name = doc["metadata"]["name"]
                     path = os.path.join(dir, f"{kind.lower()}-{name.lower()}.yaml")
                     with open(path, "w") as f:
                         yaml.dump(doc, f, indent=2)
@@ -27,12 +28,21 @@ def split_manifest(fs, dir, clean_dir):
                 except IndexError as e:
                     logging.warning(f"Skipping doc: {e}")
 
+
 def main():
     logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--manifest", help="path to a manifest file. If not given will read from stdin")
-    parser.add_argument("-o", "--output-dir", dest="output_dir", default="output", help="Directory where all the individual yaml files will be dumped. Existing files will be overwritten!")
-    parser.add_argument("-c", "--clean-output", dest="clean_output", default=False, help="Clean output dir before generating yaml")
+    parser.add_argument(
+        "-o",
+        "--output-dir",
+        dest="output_dir",
+        default="output",
+        help="Directory where all the individual yaml files will be dumped. Existing files will be overwritten!",
+    )
+    parser.add_argument(
+        "-c", "--clean-output", dest="clean_output", default=False, help="Clean output dir before generating yaml"
+    )
     args = parser.parse_args()
     input_file = sys.stdin
     if args.manifest:
@@ -46,6 +56,7 @@ def main():
     split_manifest(input_file, args.output_dir, args.clean_output)
     if args.manifest:
         input_file.close()
+
 
 if __name__ == "__main__":
     main()
