@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "everyday-scripts"
-version = "0.0.2"
+version = "0.0.3"
 description = "Sandip's everyday personal scripts"
 authors = ["Sandip Bhattacharya <sandipb@showmethesource.org>"]
 license = "Apache-2.0"
@@ -37,8 +37,8 @@ types-PyYAML = "^6.0.11"
 types-colorama = "^0.4.15"
 
 [tool.poetry.scripts]
-split_manifest = 'split_manifest:main'
-mmm = 'mmm:main'
+split_manifest = 'everyday_scripts.split_manifest:main'
+mmm = 'everyday_scripts.mmm:main'
 
 [tool.mypy]
 python_version = "3.10"

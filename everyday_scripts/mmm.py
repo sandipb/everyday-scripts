@@ -22,6 +22,17 @@ import humanize
 
 from everyday_scripts.scriptlib import *
 
+DESCRIPTION="""Move files to different destinations based on their mime-type.
+
+Example:
+
+  mmm ~/Pictures image=~/Dropbox/images video=~/NAS/videos
+
+DST_PATTERN is TYPE:DIRECTORY, where TYPE comes from the mimetype TYPE/SUBTYPE of every file.
+e.g. JPEG files have the mime-type 'image/jpeg'. Here the TYPE is 'image'.
+
+Directory structure of every file under SOURCE_DIR will be preserved.
+"""
 EXTERNAL_MIMETYPE_SRC = "https://raw.githubusercontent.com/ImageMagick/ImageMagick/main/config/mime.xml"
 MIME_TYPES_FN = "mime.types"
 EXTRA_EXT_TYPES = {
@@ -190,11 +201,9 @@ def valid_dir_or_quit(path: str, name: str) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser("mmm", description=DESCRIPTION, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--verbose", "-v", action="store_true", help="List actions")
     parser.add_argument("--debug", "-d", action="store_true", help="Debug level logging")
-    # parser.add_argument("--image", "-I", help="Base target directory for images")
-    # parser.add_argument("--video", "-V", help="Base target directory for videos")
     parser.add_argument("--mt-download", "-m", action="store_true", help="Download mime types reference")
     parser.add_argument("--dry-run", "-n", action="store_true", help="Dry run")
     parser.add_argument("--copy", "-c", action="store_true", help="Copy, don't move")
