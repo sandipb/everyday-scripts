@@ -26,9 +26,8 @@ def split_manifest(fs, dir, clean_dir):
                     logging.info("Wrote %s", path)
                 except IndexError as e:
                     logging.warning(f"Skipping doc: {e}")
-                
 
-if __name__ == "__main__":
+def main():
     logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--manifest", help="path to a manifest file. If not given will read from stdin")
@@ -48,3 +47,5 @@ if __name__ == "__main__":
     if args.manifest:
         input_file.close()
 
+if __name__ == "__main__":
+    main()
