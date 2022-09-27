@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "everyday-scripts"
-version = "0.0.4"
+version = "0.0.5"
 description = "Sandip's everyday personal scripts"
 authors = ["Sandip Bhattacharya <sandipb@showmethesource.org>"]
 license = "Apache-2.0"
@@ -26,6 +26,7 @@ colorama = "^0.4.5"
 PyYAML = "^6.0"
 trio = "^0.21.0"
 humanize = "^4.4.0"
+pytz = "^2022.2.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
@@ -35,10 +36,12 @@ types-requests = "^2.28.11"
 trio-typing = "^0.7.0"
 types-PyYAML = "^6.0.11"
 types-colorama = "^0.4.15"
+types-pytz = "^2022.2.1.0"
 
 [tool.poetry.scripts]
 split_manifest = 'everyday_scripts.split_manifest:main'
 mmm = 'everyday_scripts.mmm:main'
+filename_time_parse = 'everyday_scripts.filename_time_parse:main'
 
 [tool.mypy]
 python_version = "3.10"

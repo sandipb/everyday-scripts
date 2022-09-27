@@ -22,7 +22,7 @@ import humanize
 
 from everyday_scripts.scriptlib import *
 
-DESCRIPTION="""Move files to different destinations based on their mime-type.
+DESCRIPTION = """Move files to different destinations based on their mime-type.
 
 Example:
 
@@ -201,13 +201,17 @@ def valid_dir_or_quit(path: str, name: str) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser("mmm", description=DESCRIPTION, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        "mmm", description=DESCRIPTION, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--verbose", "-v", action="store_true", help="List actions")
     parser.add_argument("--debug", "-d", action="store_true", help="Debug level logging")
     parser.add_argument("--mt-download", "-m", action="store_true", help="Download mime types reference")
     parser.add_argument("--dry-run", "-n", action="store_true", help="Dry run")
     parser.add_argument("--copy", "-c", action="store_true", help="Copy, don't move")
-    parser.add_argument("--parallel", "-P", type=int, default=PARALLELISM, help="Number of parallel operations (default: %(default)d)")
+    parser.add_argument(
+        "--parallel", "-P", type=int, default=PARALLELISM, help="Number of parallel operations (default: %(default)d)"
+    )
     parser.add_argument("src", metavar="SOURCE_DIR", help="Source directory")
     parser.add_argument("dst", metavar="DST_PATTERN", nargs="+", help="Destination patterns in TYPE:DIRECTORY format")
     args = parser.parse_args()
