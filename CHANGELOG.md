@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning].
 
 ### Added
 
-- `bind_mounts.py` script added to repository, but not added as an entrypoint. Meant only for synology.
+- `bind_mounts.py` script added to repository, but not added as an entrypoint.
+  Meant only for synology.
 
 ### Fixed
 
