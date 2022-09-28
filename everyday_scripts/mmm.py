@@ -87,10 +87,11 @@ def find_files(src: str, dest_map: Dict[str, str]):
         for f in files:
             full_path = os.path.join(root, f)
             ftype = type_for_file(f)
-            if (ftype is not None) and (ftype in dest_map):
-                final_path = replace_path(full_path, src, dest_map[ftype])
-                Metrics.type_counts[ftype] += 1
-                yield (full_path, final_path)
+            if ftype is not None:
+                if ftype in dest_map:
+                    final_path = replace_path(full_path, src, dest_map[ftype])
+                    Metrics.type_counts[ftype] += 1
+                    yield (full_path, final_path)
             else:
                 logging.debug("Skipping file with unknown file type: %s", full_path)
 

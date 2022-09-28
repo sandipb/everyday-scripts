@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
+## [0.0.6] - 2022-09-28
+
+### Added
+
+- `bind_mounts.py` script added to repository, but not added as an entrypoint. Meant only for synology.
+
+### Fixed
+
+- `mmm` no longer prints an invalid log message of unknown format when a known
+  format is simply not provided in actions.
+
 ## [0.0.5] - 2022-09-27
 
 ### Added
@@ -38,6 +49,7 @@ and this project adheres to [Semantic Versioning].
 [semantic versioning]: https://semver.org/spec/v2.0.0.html
 
 <!-- Versions -->
+[0.0.6]: https://github.com/sandipb/everyday-scripts/compare/v0.0.5..v0.0.6
 [0.0.5]: https://github.com/sandipb/everyday-scripts/compare/v0.0.4..v0.0.5
 [0.0.4]: https://github.com/sandipb/everyday-scripts/compare/v0.0.3..v0.0.4
 [0.0.3]: https://github.com/sandipb/everyday-scripts/compare/v0.0.2..v0.0.3
