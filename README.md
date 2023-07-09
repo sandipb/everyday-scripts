@@ -13,3 +13,11 @@ Included are:
 
 1. ``photo_label.py``: Use the file name in photos to label a folder full of
    them suitable for display on our PixStar photo frame.
+
+## Pre-reqs
+
+### For builds
+
+```shell-session
+brew install bazelisk buildifier
+```

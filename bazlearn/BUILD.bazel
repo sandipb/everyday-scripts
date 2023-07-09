@@ -1,0 +1,6 @@
+genrule(
+    name = "att1",
+    srcs = [],
+    outs = ["out.txt"],
+    cmd = "sleep 1 && fortune >> $@",
+)
