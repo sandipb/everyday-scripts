@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
+## [0.0.7] - 2023-08-15
+
+### Added
+
+- `analyze_emails` to analyze mails in an imap server inbox
+
 ## [0.0.6] - 2022-09-28
 
 ### Added
