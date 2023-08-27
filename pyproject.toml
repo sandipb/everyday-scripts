@@ -28,6 +28,7 @@ trio = "^0.21.0"
 humanize = "^4.4.0"
 pytz = "^2022.2.1"
 prettytable = "^3.8.0"
+google-cloud-bigquery = "^3.11.4"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
@@ -46,10 +47,10 @@ filename_time_parse = 'everyday_scripts.filename_time_parse:main'
 analyze_emails = 'everyday_scripts.analyze_emails:main'
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 
 [tool.black]
-line-length = 120
-target-version = ['py39']
+line-length = 140
+target-version = ['py310']
