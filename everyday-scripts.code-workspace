@@ -14,5 +14,12 @@
 			"editor.defaultFormatter": "charliermarsh.ruff"
 		},
 		"python.analysis.typeCheckingMode": "basic",
+		"editor.wordWrapColumn": 140,
+		"editor.rulers": [
+			{
+				"column": 120,
+				"color": "#ff0000"
+			}
+		],
 	}
 }

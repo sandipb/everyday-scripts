@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning].
   - `bq_expire_table`
 - `gh_list_changed.py`: Lists new files added from Github PRs in a month
 - `run_every.sh`: Shell script to run a command every X seconds
+- `imap_tools`: Tool to analyze imap mailbox and delete unwanted senders
 
 ## [0.0.6] - 2022-09-28
 
