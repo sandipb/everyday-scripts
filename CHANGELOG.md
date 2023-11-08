@@ -5,11 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
-## [0.0.7] - 2023-08-15
+## [0.0.7] - 2023-11-08
 
 ### Added
 
 - `analyze_emails` to analyze mails in an imap server inbox
+- Bigquery table management scripts
+  - `bq_size`
+  - `bq_expire_partition`
+  - `bq_expire_table`
+- `gh_list_changed.py`: Lists new files added from Github PRs in a month
+- `run_every.sh`: Shell script to run a command every X seconds
 
 ## [0.0.6] - 2022-09-28
 

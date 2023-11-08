@@ -52,6 +52,9 @@ mmm = 'everyday_scripts.mmm:main'
 filename_time_parse = 'everyday_scripts.filename_time_parse:main'
 analyze_emails = 'everyday_scripts.analyze_emails:main'
 manage_gcp_custom_metric = 'everyday_scripts.manage_gcp_custom_metrics:main'
+bq_size = 'everyday_scripts.bq_size:main'
+bq_expire_partition = 'everyday_scripts.bq_expire_partition:main'
+bq_expire_table = 'everyday_scripts.bq_expire_table:main'
 
 [tool.mypy]
 python_version = "3.11"
