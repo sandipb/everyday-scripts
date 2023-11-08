@@ -12,7 +12,7 @@ import typing
 from io import StringIO
 
 DRYRUN = bool(os.getenv("DRYRUN", ""))
-logprefix=""
+logprefix = ""
 if DRYRUN:
     logprefix = "[DRYRUN] "
 logging.basicConfig(level=logging.INFO, format=logprefix + "%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
@@ -27,6 +27,7 @@ default_config = """
 """
 mountpoint = "/home/linuxbrew/.linuxbrew/bin/mountpoint"
 
+
 def load_config(config_path: typing.Union[str, typing.TextIO]):
     """
     >>> from io import StringIO
@@ -34,11 +35,12 @@ def load_config(config_path: typing.Union[str, typing.TextIO]):
     >>> sorted(load_config(data).keys())
     ['/volume1/dropbox_sandip/photos_backup/photos', '/volume1/homes']
     """
-    if type(config_path) == str:
+    if isinstance(config_path, str):
         data = Path(config_path).read_text()
     else:
         data = config_path.read()
     return json.loads(data)
+
 
 def mount(config: dict):
     for src, dst in config.items():
@@ -59,6 +61,7 @@ def mount(config: dict):
         except Exception as e:
             logging.error("Could not mount '%s' to '%s': %s", src, dst, e)
 
+
 if __name__ == "__main__":
     try:
         if len(sys.argv) < 2:
@@ -67,6 +70,6 @@ if __name__ == "__main__":
         else:
             config = load_config(sys.argv[1])
     except Exception as e:
-        logging.error("Could not load config file %s: %s", sys.argv[1], e )
+        logging.error("Could not load config file %s: %s", sys.argv[1], e)
         sys.exit(1)
     mount(config)

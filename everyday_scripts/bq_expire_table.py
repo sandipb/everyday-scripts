@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", "Your application has authenticated using end 
 
 
 def set_expiration(
-    client: bigquery.Client, item: Union[bigquery.Dataset, bigquery.Table], days: int, dry_run: bool, table_name: str = None
+    client: bigquery.Client, item: Union[bigquery.Dataset, bigquery.Table], days: int, dry_run: bool, table_name: str | None = None
 ) -> None:
     """
     Sets the expiration for a given item (dataset or table) and prints the change.
@@ -60,8 +60,8 @@ def handle_tables(
     client: bigquery.Client,
     dataset_obj: bigquery.Dataset,
     days: int,
-    table_pattern: str = None,
-    skip_tables: str = None,
+    table_pattern: str | None = None,
+    skip_tables: str | None = None,
     dry_run: bool = False,
 ) -> None:
     """
@@ -75,7 +75,7 @@ def handle_tables(
     :param dry_run: Flag for dry run, show changes without applying them
     """
 
-    for table_item in client.list_tables(dataset_obj):  # type: bigquery.table.TableListItem
+    for table_item in client.list_tables(dataset_obj):
         table: bigquery.Table = client.get_table(table_item)  # Fetch the full table object
 
         # Skip tables that match the skip_tables regex pattern if provided

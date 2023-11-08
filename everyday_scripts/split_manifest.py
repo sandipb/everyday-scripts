@@ -40,9 +40,8 @@ def main():
         default="output",
         help="Directory where all the individual yaml files will be dumped. Existing files will be overwritten!",
     )
-    parser.add_argument(
-        "-c", "--clean-output", dest="clean_output", default=False, help="Clean output dir before generating yaml"
-    )
+    parser.add_argument("-c", "--clean-output", dest="clean_output", default=False, help="Clean output dir before generating yaml")
+
     args = parser.parse_args()
     input_file = sys.stdin
     if args.manifest:

@@ -1,0 +1,18 @@
+repos: # This key is used to specify the repositories where the hooks are stored.
+  - repo: local # This specifies that the hooks are stored in the local repository.
+    hooks:
+      - id: make-check
+        name: Run make check # Name of the hook. It is used for display purposes.
+        entry: make check # Command that the hook will run.
+        language: system # This specifies the language of the hook. In this case, it is a system command.
+
+        # This specifies whether the files that have been changed should be passed to the hook. In this case, they
+        # should not be.
+        pass_filenames: false
+
+      - id: yamllint
+        name: Run yamllint
+        entry: yamllint .
+        language: system
+        types: [yaml]
+        exclude: '^(\.venv|templates)/'

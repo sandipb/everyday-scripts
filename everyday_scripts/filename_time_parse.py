@@ -1,5 +1,5 @@
 import argparse
-from datetime import timezone, datetime
+from datetime import datetime
 import time
 import os
 import pytz
@@ -41,9 +41,7 @@ class TSFile:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        "filename_time_parse", description=DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter
-    )
+    parser = argparse.ArgumentParser("filename_time_parse", description=DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--rename", "-r", action="store_true", help="Rename file in new format")
     parser.add_argument("--source-format", "-s", required=True, help="Source file format in strftime format")
     parser.add_argument("--dst-format", "-d", required=True, help="Destination file format in strftime format")

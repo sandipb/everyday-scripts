@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-from google.cloud import bigquery
+import google.cloud.bigquery as bigquery
+
 from google.api_core.exceptions import NotFound
+
 import argparse
-from datetime import timedelta, datetime, timezone
+
 import sys
 import re
 import warnings
-from typing import Union
 
 warnings.filterwarnings("ignore", "Your application has authenticated using end user credentials")
 
@@ -23,7 +24,7 @@ def set_partition_expiration(client: bigquery.Client, table: bigquery.Table, day
     :param dry_run: Flag for dry run
     """
 
-    before_expiration_ms = table.time_partitioning.expiration_ms
+    before_expiration_ms = table.time_partitioning.expiration_ms  # type: ignore
     before_expiration_days = before_expiration_ms / 86400000 if before_expiration_ms else "None"
     after_expiration_days = None if days == -1 else days
 
@@ -42,8 +43,8 @@ def handle_tables(
     client: bigquery.Client,
     dataset_obj: bigquery.Dataset,
     days: int,
-    table_pattern: str = None,
-    skip_tables: str = None,
+    table_pattern: str | None = None,
+    skip_tables: str | None = None,
     dry_run: bool = False,
 ) -> None:
     """
@@ -57,7 +58,7 @@ def handle_tables(
     :param dry_run: Flag for dry run, show changes without applying them
     """
 
-    for table_item in client.list_tables(dataset_obj):  # type: bigquery.table.TableListItem
+    for table_item in client.list_tables(dataset_obj):
         table: bigquery.Table = client.get_table(table_item)  # Fetch the full table object
 
         # Skip tables that match the skip_tables regex pattern if provided
@@ -71,9 +72,6 @@ def handle_tables(
         # Check if the table is day-partitioned
         if table.time_partitioning and table.time_partitioning.type_ == bigquery.TimePartitioningType.DAY:
             set_partition_expiration(client, table, days, dry_run)
-
-
-from google.api_core.exceptions import NotFound
 
 
 def main():

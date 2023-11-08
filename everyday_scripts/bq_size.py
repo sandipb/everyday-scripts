@@ -41,9 +41,9 @@ def get_dataset_info(project_id: str, show_tables: bool = False) -> None:
         dataset_obj: bigquery.Dataset = client.get_dataset(dataset_ref)
         total_size_gb: float = 0
         table_details_list: list[tuple] = []
-        for table_item in client.list_tables(dataset_obj):  # type: bigquery.table.TableListItem
+        for table_item in client.list_tables(dataset_obj):
             table: bigquery.Table = client.get_table(table_item)  # Fetch the full table object
-            table_size_gb = table.num_bytes / (1024**3)
+            table_size_gb = table.num_bytes / (1024**3) if table.num_bytes else 0
             total_size_gb += table_size_gb
             if show_tables:
                 if (not table.expires) or (table.expires.date().isoformat() == never_expires_date):
@@ -87,13 +87,7 @@ def main():
         handle_dataset(client, dataset_obj, args.table)
 
 
-from prettytable import PrettyTable
-
-
-from prettytable import PrettyTable
-
-
-def handle_dataset(client: bigquery.Client, dataset: bigquery.Dataset, table_pattern: str = None):
+def handle_dataset(client: bigquery.Client, dataset: bigquery.Dataset, table_pattern: str | None = None):
     """
     Handles information retrieval and display for a given dataset in BigQuery. Lists tables within the dataset, their
     sizes, expiration times, and partition expiration durations if the tables are day partitioned. Filters tables
@@ -112,7 +106,7 @@ def handle_dataset(client: bigquery.Client, dataset: bigquery.Dataset, table_pat
 
     for table_item in client.list_tables(dataset):
         table = client.get_table(table_item)
-        size_gb = table.num_bytes / 1024 / 1024 / 1024
+        size_gb = table.num_bytes / 1024 / 1024 / 1024 if table.num_bytes else 0
         total_size_gb += size_gb
 
         if table_pattern and not re.match(table_pattern, table_item.table_id):

@@ -9,8 +9,10 @@
 		"emmet.includeLanguages": {
 			"plaintext": "html"
 		},
+		"python.languageServer": "Pylance",
 		"[python]": {
-			"editor.defaultFormatter": "ms-python.black-formatter"
+			"editor.defaultFormatter": "charliermarsh.ruff"
 		},
+		"python.analysis.typeCheckingMode": "basic",
 	}
 }

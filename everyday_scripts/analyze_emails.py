@@ -2,6 +2,7 @@
 
 import imaplib
 import email
+from email.message import EmailMessage
 from collections import Counter
 from prettytable import PrettyTable
 import os
@@ -10,9 +11,7 @@ from typing import List, Tuple
 import logging
 
 
-def download_emails(
-    imap_server: str, username: str, password: str, num_emails: int
-) -> List[email.message.EmailMessage]:
+def download_emails(imap_server: str, username: str, password: str, num_emails: int) -> List[EmailMessage]:
     """
     Connects to the IMAP server and downloads the specified number of latest emails.
 
@@ -33,7 +32,7 @@ def download_emails(
         _, data = server.uid("sort", "(REVERSE DATE)", "UTF-8", "ALL")
     else:
         logging.info("Fetching email IDs using SEARCH command.")
-        _, data = server.uid("search", None, "ALL")
+        _, data = server.uid("search", None, "ALL")  # type: ignore
 
     email_ids = data[0].split()[-num_emails:]
     emails = []
@@ -50,14 +49,14 @@ def download_emails(
     return emails
 
 
-def analyze_senders(emails: List[email.message.EmailMessage]) -> List[Tuple[str, int]]:
+def analyze_senders(emails: List[EmailMessage]) -> List[Tuple[str, int]]:
     """
     Analyzes the email data to identify the most frequent senders.
 
     :param emails: List of email messages
     :return: List of tuples containing sender and count, sorted by frequency
     """
-    senders = [email.utils.parseaddr(email_message["From"])[1] for email_message in emails]
+    senders = [email.utils.parseaddr(email_message["From"])[1] for email_message in emails]  # type: ignore
     sender_counts = Counter(senders)
     return sender_counts.most_common()
 
@@ -80,15 +79,11 @@ def main() -> None:
         "You can provide the IMAP server, username, and password "
         "as command-line arguments or environment variables."
     )
-    parser.add_argument(
-        "-s", "--server", default=os.environ.get("IMAP_SERVER"), help="IMAP server address (e.g., imap.example.com)"
-    )
+    parser.add_argument("-s", "--server", default=os.environ.get("IMAP_SERVER"), help="IMAP server address (e.g., imap.example.com)")
     parser.add_argument("-u", "--username", default=os.environ.get("EMAIL_USERNAME"), help="Email username")
     parser.add_argument("-p", "--password", default=os.environ.get("EMAIL_PASSWORD"), help="Email password")
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose logging")
-    parser.add_argument(
-        "-n", "--num-emails", type=int, default=1000, help="Number of emails to analyze (default: 1000)"
-    )
+    parser.add_argument("-n", "--num-emails", type=int, default=1000, help="Number of emails to analyze (default: 1000)")
     args = parser.parse_args()
 
     log_level = logging.INFO if args.verbose else logging.WARNING

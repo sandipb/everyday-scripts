@@ -10,8 +10,8 @@ import logging
 # import json
 # import requests
 import urllib3
-
-from colorama import Fore, Style, init
+from urllib3.exceptions import InsecureRequestWarning
+from colorama import Fore, init
 
 __all__ = [
     "colorama_init",
@@ -23,7 +23,7 @@ __all__ = [
     "chunks",
 ]
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def colorama_init():
@@ -57,7 +57,7 @@ def sig_quit_clean():
     signal.signal(signal.SIGINT, quit)
 
 
-def logging_init(verbose: bool = False, log_level: int = None):
+def logging_init(verbose: bool = False, log_level: int | None = None):
     if log_level is None:
         log_level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(level=log_level, format="[%(levelname)s] %(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
@@ -68,7 +68,6 @@ def logging_init(verbose: bool = False, log_level: int = None):
 
 # https://stackoverflow.com/a/56944256
 class CustomFormatter(logging.Formatter):
-
     green = "\x1b[32m"
     grey = "\x1b[90m"
     yellow = "\x1b[33;20m"
@@ -91,14 +90,14 @@ class CustomFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def chunks(ar, l):
+def chunks(ar, length):
     """Chop up list ar into lists of at max length l
 
     >>> list(map(lambda x: list(x), chunks(range(10), 3)))
     [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
     """
-    for idx in range(0, len(ar), l):
-        yield ar[idx : idx + l]
+    for idx in range(0, len(ar), length):
+        yield ar[idx : idx + length]
 
 
 if __name__ == "__main__":
