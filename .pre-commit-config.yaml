@@ -16,3 +16,11 @@ repos: # This key is used to specify the repositories where the hooks are stored
         language: system
         types: [yaml]
         exclude: '^(\.venv|templates)/'
+
+  - repo: https://github.com/syntaqx/git-hooks
+    rev: v0.0.18
+    hooks:
+      - id: shellcheck
+        types: [shell]
+        exclude: archived
+        verbose: true
