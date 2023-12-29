@@ -39,6 +39,14 @@ def msg_error(msg):
 
 
 def ask(msg: str) -> str:
+    """
+    Ask a yes/no question and return the user's choice.
+
+    :param msg: The message to display to the user.
+    :type msg: str
+    :return: The user's choice, which can be 'y', 'n', or 'q'.
+    :rtype: str
+    """
     while True:
         choice = input(msg + "(y/n/q)").lower().strip()
         if choice and choice[0] in ("y", "n", "q"):
@@ -49,6 +57,15 @@ def ask(msg: str) -> str:
 
 
 def sig_quit_clean():
+    """
+    Sets up a signal handler for SIGINT (Ctrl+C) to gracefully exit the program.
+
+    This function registers a signal handler for SIGINT that prints a message and exits the program
+    when the user presses Ctrl+C.
+
+    :return: None
+    """
+
     def quit(sig, frame):
         print()
         logging.info("Interrupted. Exiting.")
@@ -58,6 +75,14 @@ def sig_quit_clean():
 
 
 def logging_init(verbose: bool = False, log_level: int | None = None):
+    """
+    Initialize the logging configuration.
+
+    :param verbose: Whether to enable verbose logging. Default is False.
+    :type verbose: bool
+    :param log_level: The log level to set. If None, it will be set to DEBUG if verbose is True, else INFO.
+    :type log_level: int or None
+    """
     if log_level is None:
         log_level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(level=log_level, format="[%(levelname)s] %(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
