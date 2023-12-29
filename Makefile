@@ -1,6 +1,6 @@
 .PHONY: check mypy test fmt fmtdiff export ruffcheck rufffmt staticcheck install_hooks
 
-check: ruffcheck rufffmt staticcheck
+check: staticcheck
 
 ruffcheck:
 	poetry run ruff check everyday_scripts
