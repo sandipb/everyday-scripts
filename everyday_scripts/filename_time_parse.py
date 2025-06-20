@@ -29,7 +29,7 @@ class TSFile:
     def parse(self) -> datetime:
         root, _ = os.path.splitext(self.basename)
         dt = datetime.strptime(root, self.src_fmt)
-        return self.src_zone.localize(dt, bool(time.daylight))
+        return self.src_zone.localize(dt)
 
     def format(self, fmt: str, zone: str) -> str:
         dzone = pytz.timezone(zone)
