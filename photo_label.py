@@ -29,14 +29,16 @@ TITLE_RE = re.compile(r'^(?P<year>\d{4})-\S+ (?P<place>.*) \S+$')
 MAX_PARALLEL = 5
 
 
-def jpegs_in_dir(path):
+def jpegs_in_dir(path: str) -> list[str]:
+    """Return list of JPEG files in given directory path."""
     jpeg_re = re.compile(r'\.(jpg|JPEG|jpeg|JPG)$')
     file_list = filter(lambda x: os.path.isfile(os.path.join(path, x)) and jpeg_re.search(x),
                        os.listdir(path))
-    return file_list
+    return list(file_list)
 
 
-def image_width(path):
+def image_width(path: str) -> int:
+    """Return width of image at given path."""
     try:
         out_str = subprocess.check_output(["identify",  "-format", "%w", path])
         return int(out_str)
@@ -45,7 +47,27 @@ def image_width(path):
         raise
 
 
-def label_jpeg(input, output, label, width, height):
+def label_jpeg(input: str, output: str, label: str, width: int, height: int):
+    """Label a JPEG image.
+    
+    Args:
+        input: Path to the input JPEG image file
+        output: Path where the labeled output image should be saved
+        label: Text to add as a label on the image
+        width: Width of the image in pixels
+        height: Height of the label text in pixels
+        
+    The function adds a semi-transparent black background with white text centered
+    at the bottom of the image. It uses ImageMagick's convert command to:
+    1. Create a caption with the label text
+    2. Set the background to be semi-transparent black (#0008)
+    3. Set the text color to white
+    4. Position the label at the bottom of the image
+    5. Composite the label onto the original image
+    
+    Raises:
+        subprocess.CalledProcessError: If the ImageMagick convert command fails
+    """
     try:
         subprocess.check_call(["convert -background '#0008' -fill white -gravity center "
                                "-size {width}x80 caption:'{label}' '{input}' +swap -gravity South "
@@ -59,7 +81,7 @@ def label_jpeg(input, output, label, width, height):
         raise
 
 
-def process_image(name, input_dir, output_dir, label_size):
+def process_image(name: str, input_dir: str, output_dir: str, label_size: int):
     logging.info("Processing %s", name)
     full_input_name = os.path.join(input_dir, name)
     full_output_name = os.path.join(output_dir, name)

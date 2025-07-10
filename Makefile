@@ -3,24 +3,24 @@
 check: staticcheck
 
 ruffcheck:
-	poetry run ruff check everyday_scripts
+	uv run ruff check everyday_scripts
 
 # will fail if there are any diffs
 rufffmt:
-	poetry run ruff format --diff everyday_scripts
+	uv run ruff format --diff everyday_scripts
 
 staticcheck:
-	poetry run pyright everyday_scripts
+	uv run pyright everyday_scripts
 
 fmt: rufffmt
 
 test:
-	poetry run pytest
+	uv run pytest
 
 export: requirements.txt
 
-requirements.txt: poetry.lock
-	poetry export --without-hashes > $@
+requirements.txt: uv.lock
+	uv export --no-hashes > $@
 
 install_hooks:
 	pre-commit install
