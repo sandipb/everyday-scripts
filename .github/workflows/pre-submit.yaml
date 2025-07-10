@@ -19,25 +19,23 @@ jobs:
           python-version: 3.11
 
       #----------------------------------------------
-      #  -----  install & configure poetry  -----
+      #  -----  install & configure uv  -----
       #----------------------------------------------
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
         with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
+          version: "latest"
 
       - name: Load cached venv
-        id: cached-poetry-dependencies
+        id: cached-uv-dependencies
         uses: actions/cache@v3
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction
+        if: steps.cached-uv-dependencies.outputs.cache-hit != 'true'
+        run: uv sync --extra dev
 
       - name: Get Changed Files
         id: files
@@ -47,4 +45,4 @@ jobs:
           echo "list=${files}" >> $GITHUB_OUTPUT
 
       - name: Run pre-commit on Changed Files
-        run: poetry run pre-commit run --files ${{ steps.files.outputs.list }}
+        run: uv run pre-commit run --files ${{ steps.files.outputs.list }}
